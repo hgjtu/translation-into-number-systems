@@ -1,0 +1,61 @@
+def check(num, base):
+    check = True
+    num = list(num)
+    alf = 'abcdefghijklmnopqrstuvwxyz'
+    for i in range(len(num)):
+        if num[i].lower() in alf:
+            num[i] = alf.index(num[i].lower()) + 10
+    for i in num:
+        if int(i) > base:
+            check = False
+    return check
+
+def ten(num, base):
+    num = num[::-1]
+    ten_num = 0
+    if base < 10:
+        for i in range(len(num)):
+            ten_num += int(num[i]) * (base**i)
+    else:
+        num = list(num)
+        alf = 'abcdefghijklmnopqrstuvwxyz'
+        for i in range(len(num)):
+            if num[i].lower() in alf:
+                num[i] = alf.index(num[i].lower()) + 10
+        for i in range(len(num)):
+            ten_num += int(num[i]) * (base**i)
+    return ten_num
+        
+def end(num, base):
+    end_num = []
+    alf = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    while num > 0:
+        rem = num % base
+        num = (num - rem) / base
+        if rem > 9:
+            rem = alf[int(rem) - 10]
+            end_num.append(str(rem))
+        else:
+            end_num.append(str(int(rem)))
+    end_num = ''.join(end_num[::-1])
+    return end_num
+        
+
+num, base = input('Введите число и его основание через пробел(от 2 до 36): ').split(' ')
+end_base = int(input('Перевести в(от 2 до 36): '))
+base = int(base)
+if end_base != 1 and base <= 36 and end_base <= 36:
+    if base != end_base:
+        if check(num, base) == True:
+            if end_base == 10:
+                print(ten(num, base))
+            else:
+                ten_num = ten(num, base)
+                print(end(ten_num, end_base))
+        else:
+            print('Несоответстиве числа с основанием')
+    else:
+        print('Начальная и конечная системы исчисления совпадают')
+else:
+    print('не')
+
